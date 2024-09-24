@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Registered Service Providers</title>
+    <style>
+        body {
+            font-family: 'Verdana', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .sidebar {
+            width: 30%;
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar h2 {
+            font-size: 18px;
+            color: #ecf0f1;  /* Lighter shade of white for contrast */
+            margin-bottom: 20px;
+        }
+
+        .sidebar p {
+            font-size: 13px;
+            color: #bdc3c7; /* Lighter grey for paragraph text */
+            line-height: 1.6;
+        }
+
+        .sidebar a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #1abc9c; /* Highlighted link color */
+            text-decoration: none;
+        }
+
+        .main-content {
+            width: 65%;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #2980b9;
+            margin-top: 30px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 40px;
+        }
+
+        li {
+            background-color: #fff;
+            margin: 8px 0;
+            padding: 10px 15px;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            font-size: 13px;
+            transition: transform 0.2s ease;
+        }
+
+        li:hover {
+            transform: translateY(-3px);
+            background-color: #f0f0f0;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>About Home Care Hub</h2>
+            <p>Home Care Hub connects you with the best local service providers to meet your household needs. Whether you need a plumber, electrician, or any other service provider, our platform makes it easy to find the right professional for the job.</p>
+            <p>We ensure that every provider on our platform is verified and reliable. You can browse through services, check their credentials, and make an informed choice!</p>
+            <a href="#">Learn More About Us</a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1>All Registered Service Providers</h1>
+
+            {% for service_type, providers in all_providers.items() %}
+                <h2>{{ service_type }}</h2>
+                <ul>
+                    {% for provider in providers %}
+                        <li>{{ provider.info }}</li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2024 Home Care Hub. Designed with care.
+    </footer>
+</body>
+</html>

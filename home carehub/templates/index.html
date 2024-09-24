@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Care Hub</title>
+    <style>
+        /* General page styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5; /* Soft beige background */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            background-color: #2F4F4F; /* Dark grey-blue */
+            color: white;
+            padding: 20px;
+            margin: 0;
+        }
+
+        section {
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h2 {
+            color: #2F4F4F; /* Dark grey-blue */
+        }
+
+        form {
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4682B4; /* Steel blue */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #5A9BD4; /* Lighter blue */
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2F4F4F; /* Dark grey-blue */
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Button styles */
+        .main-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            background-color: #4682B4; /* Steel blue */
+            color: white;
+            cursor: pointer;
+        }
+
+        .main-button:hover {
+            background-color: #5A9BD4; /* Lighter blue */
+        }
+
+        /* Service list styling */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        /* Notification styling */
+        .notification {
+            color: #2F4F4F; /* Dark grey-blue */
+            font-weight: bold;
+        }
+
+        .no-service {
+            color: #FF4500; /* OrangeRed */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Home Care Hub</h1>
+
+    <!-- Display newly registered provider -->
+    {% if registered_provider %}
+        <h3 class="notification">REGISTRATION SUCCESSFUL! Newly Registered Service: {{ registered_provider }}</h3>
+    {% endif %}
+
+    <!-- Main Menu -->
+    <section>
+        <h2>Are you a Customer or a Service Provider?</h2>
+        <button class="main-button" onclick="showCustomerMenu()">Customer</button>
+        <button class="main-button" onclick="showProviderMenu()">Service Provider</button>
+    </section>
+
+    <a href="{{ url_for('view_all_providers') }}">View All Registered Service Providers</a>
+
+    <!-- Customer View Section -->
+    <section id="customerMenu" style="display:none;">
+        <h2>View Available Services</h2>
+        <form action="/view_services" method="POST">
+            <label for="serviceType">Select a service:</label>
+            <select id="serviceType" name="serviceType">
+                <option value="Plumber">Plumber</option>
+                <option value="Electrician">Electrician</option>
+                <option value="AC Mechanic">AC Mechanic</option>
+                <option value="Laundry">Laundry</option>
+                <option value="House Keeping">House Keeping</option>
+            </select>
+
+            <label for="location">Select your location:</label>
+            <select id="location" name="location">
+                <option value="Coimbatore North">Coimbatore North</option>
+                <option value="Coimbatore South">Coimbatore South</option>
+                <option value="Coimbatore East">Coimbatore East</option>
+                <option value="Coimbatore West">Coimbatore West</option>
+            </select>
+
+            <button type="submit">View Services</button>
+        </form>
+
+        {% if services_found %}
+            <h3>Available {{ service_type }} services in {{ location }}:</h3>
+            <ul>
+                {% for service in services_found %}
+                    <li>{{ service.info }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            {% if service_type and location %}
+                <p class="no-service">No services found for {{ service_type }} in {{ location }}.</p>
+            {% endif %}
+        {% endif %}
+    </section>
+
+    <!-- Service Provider Registration Section -->
+    <section id="providerMenu" style="display:none;">
+        <h2>Register as a Service Provider</h2>
+        <form action="/register" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="contact">Contact Number:</label>
+            <input type="tel" id="contact" name="contact" required>
+
+            <label for="service">Select your service:</label>
+            <select id="service" name="service">
+                <option value="Plumber">Plumber</option>
+                <option value="Electrician">Electrician</option>
+                <option value="AC Mechanic">AC Mechanic</option>
+                <option value="Laundry">Laundry</option>
+                <option value="House Keeping">House Keeping</option>
+            </select>
+
+            <label for="location">Select your location:</label>
+            <select id="location" name="location">
+                <option value="Coimbatore North">Coimbatore North</option>
+                <option value="Coimbatore South">Coimbatore South</option>
+                <option value="Coimbatore East">Coimbatore East</option>
+                <option value="Coimbatore West">Coimbatore West</option>
+            </select>
+
+            <button type="submit">Register Service</button>
+        </form>
+    </section>
+
+    <script>
+        function showCustomerMenu() {
+            document.getElementById('customerMenu').style.display = 'block';
+            document.getElementById('providerMenu').style.display = 'none';
+        }
+
+        function showProviderMenu() {
+            document.getElementById('providerMenu').style.display = 'block';
+            document.getElementById('customerMenu').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
