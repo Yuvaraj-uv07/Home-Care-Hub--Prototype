@@ -34,7 +34,7 @@ Home Care Hub is a web-based platform that connects customers with service provi
 - Implement a user authentication system.
 
 ## Contributors
-- **[Yuvaraj J]** - Developer
+- **Yuvaraj J**
 
 Feel free to contribute by reporting issues or suggesting features!
 
